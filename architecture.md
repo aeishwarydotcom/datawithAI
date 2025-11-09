@@ -1,111 +1,100 @@
-# AI Platform Data → Demographics & Warfare (Visual Map)
-
-Below are **two clean Mermaid diagrams** you can copy into GitHub/Notion/Docs. They avoid advanced syntax and render reliably.
-
----
-
-## Diagram 1 — End‑to‑End Concept Map
-
 ```mermaid
 flowchart LR
-  A[AI Platforms\n(chat, apps, agents)] --> B[Data Exhaust\nqueries · clicks · dwell-time · content · embeddings]
-  B --> C[Signal Extraction\nNLP · embeddings · clustering · anomaly detection]
+  %% ------------------- SOURCES -------------------
+  subgraph A["AI Platforms (sensors)"]
+    direction TB
+    A1[User Interactions\n(prompts, clicks, edits)]
+    A2[System Telemetry\n(latency, errors, device)]
+    A3[Content Signals\n(images, text, links)]
+  end
 
-  C --> C1[Curiosity Index]
-  C --> C2[Sentiment / Emotion]
-  C --> C3[Skill / Capability Signals]
-  C --> C4[Bias / Belief Graph]
-  C --> C5[Coordination Patterns]
-  C --> C6[Device / Network Telemetry]
+  %% ------------------- DATA PIPELINE -------------------
+  subgraph B["Data Pipeline"]
+    direction TB
+    B1[Ingest & Stream]
+    B2[Clean & Normalize]
+    B3[Anonymize/Pseudonymize]
+    B4[Feature Engineering]
+  end
 
-  C1 --> D[Demographic Intelligence]
-  C2 --> D
-  C3 --> D
-  C4 --> D
-  C5 --> D
-  C6 --> D
+  A1 --> B1
+  A2 --> B1
+  A3 --> B1
+  B1 --> B2 --> B3 --> B4
 
-  D --> D1[Innovation Density Mapping]
-  D --> D2[Adaptation Velocity]
-  D --> D3[Education & Access Gaps]
-  D --> D4[Economic & Labor Signals]
+  %% ------------------- FEATURES -------------------
+  subgraph C["Derived Signals"]
+    direction TB
+    C1[Curiosity Index]
+    C2[Sentiment & Mood]
+    C3[Bias / Value Map]
+    C4[Skills & Adoption Velocity]
+    C5[Network Influence Score]
+  end
+  B4 --> C1
+  B4 --> C2
+  B4 --> C3
+  B4 --> C4
+  B4 --> C5
 
-  C1 --> E[Warfare / Strategic Applications]
-  C2 --> E
-  C3 --> E
-  C4 --> E
-  C5 --> E
-  C6 --> E
+  %% ------------------- DEMOGRAPHIC INTEL -------------------
+  subgraph D["Demographic Intelligence"]
+    direction TB
+    D1[Population Models]
+    D2[Hotspots & Trends]
+    D3[Resilience / Stability Index]
+  end
+  C1 --> D1
+  C2 --> D1
+  C3 --> D1
+  C4 --> D1
+  C5 --> D1
+  D1 --> D2
+  D1 --> D3
 
-  E --> E1[Cognitive Ops\n(narrative shaping, micro-targeting)]
-  E --> E2[ISR at Societal Scale\n(SIGINT/OSINT fusion)]
-  E --> E3[Targeting & Prioritization\n(psychographic segments)]
-  E --> E4[Behavioral Digital Twins\n(red/blue team sims)]
-  E --> E5[Decision Support & C2\n(autonomy augmentation)]
-  E --> E6[Resilience & Counter‑Misinformation]
+  %% ------------------- STRATEGIC LEVERAGE -------------------
+  subgraph E["Strategic Leverage"]
+    direction TB
+    E1[Policy & Investment Targeting]
+    E2[Comms & Narrative Design]
+    E3[Intelligence Dashboards]
+    E4[Risk / Early-Warning Systems]
+  end
+  D2 --> E1
+  D3 --> E2
+  D1 --> E3
+  D3 --> E4
 
-  subgraph Governance & Guardrails
+  %% ------------------- FUTURE WARFARE MODES -------------------
+  subgraph F["Future Warfare"]
+    direction TB
+    F1[Cognitive / Influence Ops]
+    F2[Information Defense]
+    F3[Economic & Supply Chain Actions]
+    F4[Cyber / Automated Response]
+  end
+  E2 --> F1
+  E3 --> F2
+  E1 --> F3
+  E4 --> F4
+
+  %% ------------------- GOVERNANCE / ETHICS -------------------
+  subgraph G["Governance & Guardrails"]
+    direction TB
     G1[Data Sovereignty]
-    G2[Privacy / Anonymization]
-    G3[Consent, Logging, Auditing]
-    G4[AI Safety & Policy]
+    G2[Privacy by Design]
+    G3[Auditability & Red-Team]
+    G4[Safety Policies & Transparency]
   end
+  G1 --- B3
+  G2 --- B2
+  G3 --- E3
+  G4 --- E2
 
-  D --- G1
-  D --- G2
-  E --- G3
-  E --- G4
+  %% Feedback loops
+  F1 -. influence .-> A1
+  F2 -. hardening .-> B2
+  F3 -. secondary effects .-> D2
+  F4 -. threat intel .-> E4
 
-  E --> X[Abuse / Risk]
-  X --> X1[Mass Surveillance]
-  X --> X2[Chilling Effects]
-  X --> X3[Escalation Dynamics]
-  X --> X4[Data Poisoning / Inference Attacks]
-
-  E --> F[Feedback to Platforms]
-  F --> B
 ```
-
-**Legend:**
-
-* **Data Exhaust** → passively generated telemetry from usage.
-* **Signals** → features derived from data (not raw PII).
-* **Governance** → must be applied across both demographic and warfare uses.
-
----
-
-## Diagram 2 — Secure Data-to-Decision Pipeline
-
-```mermaid
-flowchart TB
-  S0[Users & Systems] --> S1[Collect\nSDKs · logs · chat traces]
-  S1 --> S2[Protect\nPII redaction · k‑anonymity · DP noise]
-  S2 --> S3[Process\nETL · embeddings · feature stores]
-  S3 --> S4[Model\nforecasting · clustering · agents]
-  S4 --> S5[Decide\nalerts · simulations · policies]
-  S5 --> S6[Act\ncommunications · playbooks · controls]
-
-  subgraph Oversight
-    O1[Human-in-the-Loop]
-    O2[Audit Trails]
-    O3[Eval Harness\n(efficacy, bias, robustness)]
-    O4[Risk Controls\n(guardrails, rate limits)]
-  end
-
-  S2 --- O2
-  S4 --- O3
-  S5 --- O1
-  S6 --- O4
-```
-
----
-
-### Notes for Deployment (quick)
-
-* **Minimize raw logs**; prefer **aggregated features** and **on‑device pre‑processing**.
-* Use **tiered access** (research vs. operations) and **purpose binding** for every dataset.
-* Maintain **counter‑influence playbooks** and **red‑team simulations** using the same data responsibly.
-
----
-
-If you want, I can also generate a **draw.io (diagrams.net) file** with the same structure for easy editing and export. Let me know and I’ll add it here.
