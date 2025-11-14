@@ -1,17 +1,24 @@
 ```mermaid
 flowchart LR
-  U[Business User / Founder] --> UI[Web App\n(React + Tailwind)]
-  UI --> API[API Layer\n(FastAPI)]
+  U[Business User]
+  UI[Web App - React]
+  API[API Layer - FastAPI]
+  ACCT[Accounting Engine]
+  AI[AI Layer]
+  INTEG[Connectors]
+  DB[(PostgreSQL RDS)]
+  OBS[Observability]
 
-  API --> ACCT["Accounting Engine\n(Journals / Periods / COA)"]
-  API --> AI["AI Layer\n(Classification + RAG)"]
-  API --> INTEG["Connectors\n(Plaid, Stripe, OCR)"]
-
-  ACCT --> DB[(PostgreSQL RDS)]
+  U --> UI
+  UI --> API
+  API --> ACCT
+  API --> AI
+  API --> INTEG
+  ACCT --> DB
   AI --> DB
   INTEG --> DB
+  API --> OBS
 
-  API --> OBS["Observability\n(Logs / Metrics)"]
 
 
 
