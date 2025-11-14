@@ -132,3 +132,23 @@ classDiagram
     Study "1" -- "many" Plan
     Plan "1" -- "many" SimulationResult
 ```
+```mermaid
+gantt
+    dateFormat  YYYY-MM-DD
+    title Maxillofacial DT — MVP Timeline
+    section Data & Infra
+    PACS connector & DICOM import     :a1, 2025-11-15, 10d
+    Storage & metadata schema         :a2, after a1, 7d
+    section Algorithms
+    Preprocess & registration         :b1, 2025-12-02, 10d
+    Segmentation (bone/teeth/nerve)   :b2, after b1, 14d
+    Landmarking & occlusion           :b3, after b2, 7d
+    section Simulation & Planning
+    FEM setup & materials             :c1, 2025-12-20, 12d
+    Planning UI (cuts/implants)       :c2, after c1, 10d
+    What-if simulations               :c3, after c2, 7d
+    section App & Compliance
+    3D viewer + reporting             :d1, 2026-01-15, 10d
+    Audit/versioning + export         :d2, after d1, 7d
+    Clinical pilot & feedback         :d3, after d2, 14d
+```
