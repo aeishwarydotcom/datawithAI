@@ -25,7 +25,7 @@ flowchart LR
 
 
 ```
-
+2️⃣ Accounting engine posting pipeline
 ```mermaid
 flowchart LR
   SRC[Source Event]
