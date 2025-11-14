@@ -50,3 +50,116 @@ flowchart LR
   EVENTS --> TAX
 
 ```
+3️⃣ Team momentum loop (architect + intern pod)
+```mermaid
+flowchart LR
+  ARCH[Architect]
+  SPEC[Define Specs And Tickets]
+  INT_BACK[Backend Intern]
+  INT_FRONT[Frontend Intern]
+  INT_ML[ML Intern]
+  PR[Pull Requests]
+  REVIEW[Code Review]
+  DEMO[Weekly Demo]
+  FEEDBACK[Business Feedback]
+
+  ARCH --> SPEC
+  SPEC --> INT_BACK
+  SPEC --> INT_FRONT
+  SPEC --> INT_ML
+  INT_BACK --> PR
+  INT_FRONT --> PR
+  INT_ML --> PR
+  PR --> REVIEW
+  REVIEW --> DEMO
+  DEMO --> FEEDBACK
+  FEEDBACK --> SPEC
+```
+
+```mermaid
+gantt
+  dateFormat  YYYY-MM-DD
+  title myCAO.ai MVP Plan
+
+  section Foundations
+  CI_CD_Auth_RDS      :done,    t1, 2025-01-01, 14d
+  Accounting_Core     :active,  t2, after t1, 14d
+
+  section Bank_and_Reco
+  Bank_Ingestion      :        t3, after t2, 14d
+  Reconciliation_UI   :        t4, after t3, 7d
+
+  section AI_and_Close
+  AI_Classification   :        t5, after t3, 14d
+  Close_and_TaxBridge :        t6, after t5, 14d
+
+  section Hardening_and_Pilot
+  Observability_Security :     t7, after t6, 7d
+  Pilot_Onboarding       :     t8, after t7, 7d
+```
+
+5️⃣ Core data model (ERD for accounting engine)
+
+```mermaid
+erDiagram
+  TENANT ||--o{ ENTITY : has
+  ENTITY ||--o{ BOOK : has
+  ENTITY ||--o{ PERIOD : has
+  ENTITY ||--o{ ACCOUNT : has
+  ENTITY ||--o{ JOURNAL : has
+  JOURNAL ||--o{ JOURNAL_LINE : has
+
+  TENANT {
+    uuid id
+    string name
+  }
+
+  ENTITY {
+    uuid id
+    uuid tenant_id
+    string name
+    string base_currency
+  }
+
+  BOOK {
+    uuid id
+    uuid entity_id
+    string code
+  }
+
+  PERIOD {
+    uuid id
+    uuid entity_id
+    string code
+    date start_date
+    date end_date
+    string status
+  }
+
+  ACCOUNT {
+    uuid id
+    uuid entity_id
+    string code
+    string name
+    string type
+  }
+
+  JOURNAL {
+    uuid id
+    uuid entity_id
+    uuid book_id
+    uuid period_id
+    date txn_date
+    string status
+    string currency
+  }
+
+  JOURNAL_LINE {
+    uuid id
+    uuid journal_id
+    uuid account_id
+    decimal debit
+    decimal credit
+  }
+
+```
