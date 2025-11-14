@@ -152,3 +152,55 @@ gantt
     Audit/versioning + export         :d2, after d1, 7d
     Clinical pilot & feedback         :d3, after d2, 14d
 ```
+
+```mermaid
+flowchart LR
+    subgraph Client
+        UI[React + Tailwind\n3D Viewer + Planning UI]
+    end
+
+    subgraph API[FastAPI Backend]
+        GW[REST API\nAuth / Routing]
+        DTAPI[DT Orchestration\nJobs, Status, Cases]
+    end
+
+    subgraph Workers[Async Workers]
+        PRE[Preprocess Worker\nResample / Denoise / Align]
+        SEG[Segmentation Worker\nCNN/ViT]
+        LMK[Landmark Worker\nCephalometric Points]
+        FEM[FEM/Simulation Worker\nStress, Deformation]
+        REP[Report Worker\nPDF/STL Export]
+    end
+
+    subgraph Storage
+        PG[(Postgres\nMetadata / Plans / Users)]
+        FS[(Object Storage\nDICOM / Meshes / STL)]
+    end
+
+    PACS[PACS / DICOM Source]:::ext
+
+    UI <-->|HTTPS JSON| GW
+    GW --> DTAPI
+
+    DTAPI --> PG
+    DTAPI --> FS
+
+    DTAPI --> PRE
+    DTAPI --> SEG
+    DTAPI --> LMK
+    DTAPI --> FEM
+    DTAPI --> REP
+
+    PRE --> FS
+    SEG --> FS
+    SEG --> PG
+    LMK --> PG
+    FEM --> FS
+    FEM --> PG
+    REP --> FS
+
+    PACS --> GW:::ext
+    classDef ext fill:#fff,stroke:#333,stroke-dasharray: 4 2;
+```
+
+
