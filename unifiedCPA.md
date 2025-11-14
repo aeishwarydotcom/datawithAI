@@ -82,20 +82,20 @@ gantt
     title  myCAO.ai MVP Plan
 
     section Foundations
-    CI_CD_Auth_RDS        :done,   t1, 2025-01-01, 14d
-    Accounting_Core       :active, t2, 2025-01-15, 14d
+    CI_CD_Auth_RDS        :done,   t1, 2026-01-01, 14d
+    Accounting_Core       :active, t2, 2026-01-15, 14d
 
     section Bank_and_Reco
-    Bank_Ingestion        :t3, 2025-01-29, 14d
-    Reconciliation_UI     :t4, 2025-02-12, 7d
+    Bank_Ingestion        :t3, 2026-01-29, 14d
+    Reconciliation_UI     :t4, 2026-02-12, 7d
 
     section AI_and_Close
-    AI_Classification     :t5, 2025-02-19, 14d
-    Close_and_TaxBridge   :t6, 2025-03-05, 14d
+    AI_Classification     :t5, 2026-02-19, 14d
+    Close_and_TaxBridge   :t6, 2026-03-05, 14d
 
     section Hardening_and_Pilot
-    Observability_Security :t7, 2025-03-19, 7d
-    Pilot_Onboarding       :t8, 2025-03-26, 7d
+    Observability_Security :t7, 2026-03-19, 7d
+    Pilot_Onboarding       :t8, 2026-03-26, 7d
 
 ```
 
