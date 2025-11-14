@@ -1,3 +1,5 @@
+1️⃣ High-level architecture
+
 ```mermaid
 flowchart LR
   U[Business User]
@@ -21,5 +23,30 @@ flowchart LR
 
 
 
+
+```
+
+```mermaid
+flowchart LR
+  SRC[Source Event]
+  BUILD[Build Journal Proposal]
+  VALIDATE[Validate Rules And Balance]
+  POST[Persist Journals]
+  ERROR[Return Errors]
+  EVENTS[Emit Events]
+  AUDIT[Write Audit Log]
+  RECO[Reconciliation Engine]
+  CLOSE[Close Engine]
+  TAX[Tax Bridge]
+
+  SRC --> BUILD
+  BUILD --> VALIDATE
+  VALIDATE -->|OK| POST
+  VALIDATE -->|Fail| ERROR
+  POST --> EVENTS
+  POST --> AUDIT
+  EVENTS --> RECO
+  EVENTS --> CLOSE
+  EVENTS --> TAX
 
 ```
