@@ -78,24 +78,25 @@ flowchart LR
 
 ```mermaid
 gantt
-  dateFormat  YYYY-MM-DD
-  title myCAO.ai MVP Plan
+    dateFormat  YYYY-MM-DD
+    title  myCAO.ai MVP Plan
 
-  section Foundations
-  CI_CD_Auth_RDS      :done,    t1, 2025-01-01, 14d
-  Accounting_Core     :active,  t2, after t1, 14d
+    section Foundations
+    CI_CD_Auth_RDS        :done,   t1, 2025-01-01, 14d
+    Accounting_Core       :active, t2, 2025-01-15, 14d
 
-  section Bank_and_Reco
-  Bank_Ingestion      :        t3, after t2, 14d
-  Reconciliation_UI   :        t4, after t3, 7d
+    section Bank_and_Reco
+    Bank_Ingestion        :t3, 2025-01-29, 14d
+    Reconciliation_UI     :t4, 2025-02-12, 7d
 
-  section AI_and_Close
-  AI_Classification   :        t5, after t3, 14d
-  Close_and_TaxBridge :        t6, after t5, 14d
+    section AI_and_Close
+    AI_Classification     :t5, 2025-02-19, 14d
+    Close_and_TaxBridge   :t6, 2025-03-05, 14d
 
-  section Hardening_and_Pilot
-  Observability_Security :     t7, after t6, 7d
-  Pilot_Onboarding       :     t8, after t7, 7d
+    section Hardening_and_Pilot
+    Observability_Security :t7, 2025-03-19, 7d
+    Pilot_Onboarding       :t8, 2025-03-26, 7d
+
 ```
 
 5️⃣ Core data model (ERD for accounting engine)
