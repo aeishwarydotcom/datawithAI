@@ -1,51 +1,18 @@
 ```mermaid
 flowchart LR
-    subgraph Client["Client Apps"]
-        FE["React + Tailwind UI"]
-    end
+  U[Business User / Founder] --> UI[Web App\n(React + Tailwind)]
+  UI --> API[API Layer\n(FastAPI)]
 
-    subgraph API["FastAPI Backend"]
-        ROUTER["API Router & Auth\n(JWT, RBAC, Tenancy)"]
-        AE["Accounting Engine\n(Journals, Periods, TB)"]
-        ING["Ingestion Service\n(Bank Feeds, CSV)"]
-        RECO["Reconciliation Service"]
-        AI["AI Layer\n(Classifier + RAG)"]
-        CLOSE["Close & Tax Bridge"]
-    end
+  API --> ACCT["Accounting Engine\n(Journals / Periods / COA)"]
+  API --> AI["AI Layer\n(Classification + RAG)"]
+  API --> INTEG["Connectors\n(Plaid, Stripe, OCR)"]
 
-    subgraph Data["Data Stores"]
-        PG["PostgreSQL RDS\n(Tenants, GL, AI traces)"]
-        S3["S3\n(Documents, OCR outputs)"]
-        VEC["Vector Index\n(pgvector or external)"]
-    end
+  ACCT --> DB[(PostgreSQL RDS)]
+  AI --> DB
+  INTEG --> DB
 
-    subgraph Integrations["External Integrations"]
-        PLAID["Plaid / Finicity"]
-        PAY["Stripe / Payment APIs"]
-        OCR["Textract / Form Recognizer / Doc AI"]
-        IRS["IRS / FIRS (later)"]
-    end
+  API --> OBS["Observability\n(Logs / Metrics)"]
 
-    FE --> ROUTER
-    ROUTER --> AE
-    ROUTER --> ING
-    ROUTER --> RECO
-    ROUTER --> AI
-    ROUTER --> CLOSE
-
-    AE --> PG
-    ING --> PG
-    RECO --> PG
-    CLOSE --> PG
-
-    AI --> VEC
-    AI --> PG
-    ING --> S3
-    OCR --> ING
-
-    ING --> PLAID
-    ING --> PAY
-    CLOSE --> IRS
 
 
 ```
