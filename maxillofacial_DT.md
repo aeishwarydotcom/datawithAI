@@ -78,3 +78,57 @@ graph TD
 
 
 ```
+```mermaid
+classDiagram
+    class Patient {
+      +id: UUID
+      +name: string
+      +dob: date
+      +mrn: string
+    }
+    class Study {
+      +id: UUID
+      +modality: string
+      +date: date
+    }
+    class Series {
+      +id: UUID
+      +orientation: string
+      +spacing: float[3]
+    }
+    class DICOM {
+      +sopInstanceUID: string
+      +path: string
+    }
+    class Mesh {
+      +id: UUID
+      +type: enum(Maxilla,Mandible,Teeth,Nerve,Soft)
+      +file: string
+    }
+    class Landmark {
+      +id: UUID
+      +label: string
+      +x: float
+      +y: float
+      +z: float
+    }
+    class Plan {
+      +id: UUID
+      +type: enum(Orthognathic,Implant,Trauma)
+      +parameters: json
+    }
+    class SimulationResult {
+      +id: UUID
+      +scenario: string
+      +metrics: json
+      +snapshot: string
+    }
+
+    Patient "1" -- "many" Study
+    Study "1" -- "many" Series
+    Series "1" -- "many" DICOM
+    Study "1" -- "many" Mesh
+    Study "1" -- "many" Landmark
+    Study "1" -- "many" Plan
+    Plan "1" -- "many" SimulationResult
+```
