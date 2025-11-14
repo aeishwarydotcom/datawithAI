@@ -1,63 +1,51 @@
 ```mermaid
-flowchart TD
-  %% System/Service Architecture
-  subgraph Client
-    UI[React + Tailwind + Redux]
-  end
+flowchart LR
+    subgraph Client["Client Apps"]
+        FE["React + Tailwind UI"]
+    end
 
-  UI -->|JWT/OAuth2| API[FastAPI Gateway]
+    subgraph API["FastAPI Backend"]
+        ROUTER["API Router & Auth\n(JWT, RBAC, Tenancy)"]
+        AE["Accounting Engine\n(Journals, Periods, TB)"]
+        ING["Ingestion Service\n(Bank Feeds, CSV)"]
+        RECO["Reconciliation Service"]
+        AI["AI Layer\n(Classifier + RAG)"]
+        CLOSE["Close & Tax Bridge"]
+    end
 
-  subgraph Core Services
-    AE[MYC-1 Accounting Engine]
-    DI[MYC-4 Ingestion]
-    RECO[MYC-15 Reconciliation]
-    CLOSE[MYC-22 Close Engine]
-    TAX[MYC-16 Tax Bridge (lite)]
-    RULES[MYC-3 Rule Engine]
-    FX[MYC-6 FX Engine]
-    RPT[Reporting (TB/P&L/BS)]
-    AI[MYC-18 AI Layer (RAG + Classifier)]
-  end
+    subgraph Data["Data Stores"]
+        PG["PostgreSQL RDS\n(Tenants, GL, AI traces)"]
+        S3["S3\n(Documents, OCR outputs)"]
+        VEC["Vector Index\n(pgvector or external)"]
+    end
 
-  API --> AE
-  API --> DI
-  API --> RECO
-  API --> CLOSE
-  API --> TAX
-  AE --> RPT
-  RULES --> AE
-  FX --> AE
-  AI --> DI
-  AI --> AE
+    subgraph Integrations["External Integrations"]
+        PLAID["Plaid / Finicity"]
+        PAY["Stripe / Payment APIs"]
+        OCR["Textract / Form Recognizer / Doc AI"]
+        IRS["IRS / FIRS (later)"]
+    end
 
-  subgraph Data
-    RDS[(Postgres RDS\nOLTP + RLS)]
-    VEC[(pgvector\nGAAP/IFRS indexes)]
-    S3[(S3 Documents)]
-    METRICS[(CloudWatch/Prometheus/Grafana)]
-  end
+    FE --> ROUTER
+    ROUTER --> AE
+    ROUTER --> ING
+    ROUTER --> RECO
+    ROUTER --> AI
+    ROUTER --> CLOSE
 
-  AE <--> RDS
-  DI <--> S3
-  AI <--> VEC
-  RECO <--> RDS
-  CLOSE <--> RDS
-  TAX <--> RDS
-  API --> METRICS
-  AE --> METRICS
-  DI --> METRICS
-  RECO --> METRICS
+    AE --> PG
+    ING --> PG
+    RECO --> PG
+    CLOSE --> PG
 
-  subgraph Integrations
-    PLAID[Plaid/Finicity]
-    STRIPE[Stripe/Square]
-    OCR[AWS Textract / Azure Form Recognizer / Google Doc AI]
-    IRS[IRS / FIRS\n(e-file later)]
-  end
+    AI --> VEC
+    AI --> PG
+    ING --> S3
+    OCR --> ING
 
-  DI --> PLAID
-  DI --> STRIPE
-  DI --> OCR
-  TAX -.exports/forms.-> IRS
+    ING --> PLAID
+    ING --> PAY
+    CLOSE --> IRS
+
 
 ```
